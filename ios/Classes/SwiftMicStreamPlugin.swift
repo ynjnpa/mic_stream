@@ -23,7 +23,7 @@ public class SwiftMicStreamPlugin: NSObject, FlutterStreamHandler, FlutterPlugin
     var AUDIO_FORMAT:AudioFormat = AudioFormat.ENCODING_PCM_16BIT; // this is the encoding/bit-depth the user wants
     var actualBitDepth:UInt32?; // this is the actual hardware bit-depth
     var AUDIO_SOURCE:AudioSource = AudioSource.DEFAULT;
-    var BUFFER_SIZE = 4096;
+    var BUFFER_SIZE = 512;
     var eventSink:FlutterEventSink?;
     var session : AVCaptureSession!
     var audioSession: AVAudioSession!

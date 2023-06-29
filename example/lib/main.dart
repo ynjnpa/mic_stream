@@ -48,7 +48,7 @@ class _MicStreamExampleAppState extends State<MicStreamExampleApp>
   void initState() {
     print("Init application");
     super.initState();
-    WidgetsBinding.instance!.addObserver(this);
+    WidgetsBinding.instance.addObserver(this);
     setState(() {
       initPlatformState();
     });
@@ -57,7 +57,7 @@ class _MicStreamExampleAppState extends State<MicStreamExampleApp>
   void _controlPage(int index) => setState(() => page = index);
 
   // Responsible for switching between recording / idle state
-  void _controlMicStream({Command command: Command.change}) async {
+  void _controlMicStream({Command command = Command.change}) async {
     switch (command) {
       case Command.change:
         _changeListening();
@@ -113,7 +113,8 @@ class _MicStreamExampleAppState extends State<MicStreamExampleApp>
   }
 
   void _calculateSamples(samples) {
-    if (page == 0) _calculateWaveSamples(samples);
+    if (page == 0)
+      _calculateWaveSamples(samples);
     else if (page == 1) _calculateIntensitySamples(samples);
   }
 
@@ -190,7 +191,8 @@ class _MicStreamExampleAppState extends State<MicStreamExampleApp>
             if (isRecording) setState(() {});
           })
           ..addStatusListener((status) {
-            if (status == AnimationStatus.completed) controller.reverse();
+            if (status == AnimationStatus.completed)
+              controller.reverse();
             else if (status == AnimationStatus.dismissed) controller.forward();
           })
           ..forward();
@@ -273,7 +275,7 @@ class _MicStreamExampleAppState extends State<MicStreamExampleApp>
   void dispose() {
     listener.cancel();
     controller.dispose();
-    WidgetsBinding.instance!.removeObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }
@@ -320,7 +322,8 @@ class WavePainter extends CustomPainter {
   // Maps a list of ints and their indices to a list of points on a cartesian grid
   List<Offset> toPoints(List<int>? samples) {
     List<Offset> points = [];
-    if (samples == null) samples = List<int>.filled(size!.width.toInt(), (0.5).toInt());
+    if (samples == null)
+      samples = List<int>.filled(size!.width.toInt(), (0.5).toInt());
     double pixelsPerSample = size!.width / samples.length;
     for (int i = 0; i < samples.length; i++) {
       var point = Offset(
