@@ -123,7 +123,7 @@ class _MicStreamExampleAppState extends State<MicStreamExampleApp>
     visibleSamples = [];
     int tmp = 0;
     for (int sample in samples) {
-      if (sample > 128) sample -= 255;
+      if (sample >= 128) sample -= 255;
       if (first) {
         tmp = sample * 128;
       } else {
