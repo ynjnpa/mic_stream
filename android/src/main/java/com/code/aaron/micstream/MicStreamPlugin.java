@@ -122,7 +122,9 @@ public class MicStreamPlugin implements FlutterPlugin, EventChannel.StreamHandle
                     recorder.read(data, 0, BUFFER_SIZE);
                 } catch (NullPointerException e) {
                     System.out.println("mic_stream: recorder released!");
-                    run();
+                    eventSink.error("-1", "recorder released", e);
+                    record = false;
+                    break;
                 }
 
                 // push data into stream
