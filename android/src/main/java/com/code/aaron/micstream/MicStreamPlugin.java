@@ -66,7 +66,7 @@ public class MicStreamPlugin implements FlutterPlugin, EventChannel.StreamHandle
     private int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_8BIT;
     private int actualBitDepth;
 //    private int BUFFER_SIZE = 512; // AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT);
-    private int BUFFER_SIZE = 4096; // AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT);
+    private int BUFFER_SIZE = 8192; // AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT);
 
     // Runnable management
     private volatile boolean record = false;
