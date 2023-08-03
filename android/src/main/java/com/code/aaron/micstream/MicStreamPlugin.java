@@ -65,8 +65,7 @@ public class MicStreamPlugin implements FlutterPlugin, EventChannel.StreamHandle
     private int CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO;
     private int AUDIO_FORMAT = AudioFormat.ENCODING_PCM_8BIT;
     private int actualBitDepth;
-//    private int BUFFER_SIZE = 512; // AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT);
-    private int BUFFER_SIZE = 8192; // AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT);
+    private int BUFFER_SIZE = 512; // AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT);
 
     // Runnable management
     private volatile boolean record = false;
@@ -93,6 +92,17 @@ public class MicStreamPlugin implements FlutterPlugin, EventChannel.StreamHandle
 
     private void initRecorder () {
         // Try to initialize and start the recorder
+        // recorder = new AudioRecord(AUDIO_SOURCE, SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT, BUFFER_SIZE);
+        if (SAMPLE_RATE <= 10240) {
+            BUFFER_SIZE = 2048;
+        } else if (SAMPLE_RATE <= 22050) {
+            BUFFER_SIZE = 4096;
+        } else if (SAMPLE_RATE <= 48000) {
+            BUFFER_SIZE = 8192;
+        } else {
+            // 대략적으로 200ms 정도의 버퍼사이즈
+            BUFFER_SIZE = (SAMPLE_RATE * 0.21 / 10) * 10;
+        }
         recorder = new AudioRecord(AUDIO_SOURCE, SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT, BUFFER_SIZE);
         if (recorder.getState() != AudioRecord.STATE_INITIALIZED) {
             eventSink.error("-1", "PlatformError", null);
