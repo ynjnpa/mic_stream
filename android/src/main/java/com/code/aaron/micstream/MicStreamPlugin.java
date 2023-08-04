@@ -93,15 +93,16 @@ public class MicStreamPlugin implements FlutterPlugin, EventChannel.StreamHandle
     private void initRecorder () {
         // Try to initialize and start the recorder
         // recorder = new AudioRecord(AUDIO_SOURCE, SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT, BUFFER_SIZE);
-        if (SAMPLE_RATE == 10240) {
-            BUFFER_SIZE = 2048;
-        } else if (SAMPLE_RATE <= 22050) {
-            BUFFER_SIZE = 4096;
+//        if (SAMPLE_RATE <= 10240) {
+//            BUFFER_SIZE = 2048;
+//        } else
+        if (SAMPLE_RATE <= 22050) {
+            BUFFER_SIZE = 4096; // 자동설정시 최소값 3528 수준이상을 최소로
         } else if (SAMPLE_RATE <= 48000) {
             BUFFER_SIZE = 8192;
         } else {
-            // 대략적으로 200ms 정도의 버퍼사이즈
-            BUFFER_SIZE = (int)(SAMPLE_RATE * 0.31 / 10 * 10);
+            // 대략적으로 200ms 정도의 버퍼사이즈수준
+            BUFFER_SIZE = (int)(SAMPLE_RATE * 0.21 / 10 * 10);
         }
 
 //        BUFFER_SIZE = (int)(SAMPLE_RATE * 0.31 / 10) * 10;
