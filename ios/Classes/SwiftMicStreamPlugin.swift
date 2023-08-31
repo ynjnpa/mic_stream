@@ -23,7 +23,7 @@ public class SwiftMicStreamPlugin: NSObject, FlutterStreamHandler, FlutterPlugin
     var AUDIO_FORMAT:AudioFormat = AudioFormat.ENCODING_PCM_16BIT; // this is the encoding/bit-depth the user wants
     var actualBitDepth:UInt32?; // this is the actual hardware bit-depth
     var AUDIO_SOURCE:AudioSource = AudioSource.DEFAULT;
-    var BUFFER_SIZE = 512;
+    var BUFFER_SIZE = 8192; // ynjnpa 512;
     var eventSink:FlutterEventSink?;
     var session : AVCaptureSession!
     var audioSession: AVAudioSession!
@@ -81,6 +81,12 @@ public class SwiftMicStreamPlugin: NSObject, FlutterStreamHandler, FlutterPlugin
                     events(FlutterError(code: "-3",
                                                           message: "iPhone only sample rates between 8000 and 48000 are supported", details:nil))
                     return nil
+                }
+                // ynjnpa
+                if (SAMPLE_RATE <= 22050) {
+                    BUFFER_SIZE = 4096; // 자동설정시 최소값 3528 수준이상을 최소로
+                } else if (SAMPLE_RATE <= 48000) {
+                    BUFFER_SIZE = 8192;
                 }
                 fallthrough
             case 1:
